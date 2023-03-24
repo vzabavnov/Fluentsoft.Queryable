@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <RootNamespace>FSC.System.Linq</RootNamespace>
+	<AssemblyName>$(MSBuildProjectName.ToLower())</AssemblyName>
+	<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+	<VersionPrefix>0.0.39</VersionPrefix>
+	<Description>Contains Expression extension functionality for Entity Framework Core</Description>
+	<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
+	<Company>Fluent Software Corporation</Company>
+	<Authors>Vadim Zabavnov</Authors>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageTags>Entity Framework;Expression;Linq;</PackageTags>
+	<PackageOutputPath>..\Package</PackageOutputPath>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<Title>Queryable.OuterJoin</Title>
+	<PackageProjectUrl>https://github.com/vzabavnov/FSC.System.Linq.Queryable</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/vzabavnov/FSC.System.Linq.Queryable</RepositoryUrl>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	<IncludeSymbols>True</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<PackageId>Queryable.OuterJoin</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\ReadMe.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="ReadMe.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
