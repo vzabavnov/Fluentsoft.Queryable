@@ -5,10 +5,18 @@ Namespace: FSC.System.Linq
 Assembly: fsc.system.linq.queriable.dll  
 Package: [Queryable.OuterJoin](https://www.nuget.org/packages/Queryable.OuterJoin)
 
+| *Methods*      | *Description* |
+|--------------|-------------|
+|LeftOuterJoin|Correlates all records from the left table, and the matching records from the right table based on matching keys |
+|RightOuterJoin|Correlates all records from the right table, and the matching records from the left table based on matching keys |
+|FullOuterJoin|Correlates all records from the right table, and all records from the left table based on matching keys |
+
+---
+
 Correlates all records from the left table, and the matching records from the right table based on matching keys 
 
 ```c#
-public static IQueryable<TResult> OuterJoin<TOuter, TInner, TKey, TResult>(this 
+public static IQueryable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(this 
     IQueryable<TOuter> outer,
     IQueryable<TInner> inner,
     Expression<Func<TOuter, TKey>> outerKey,
@@ -45,9 +53,13 @@ A function to extract the join key from each element of the second sequence.
 `resultSelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TInner,TResult>>  
 A function to create a result element from two matching elements.
 
+### Returns
+[IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TResult>  
+An [IQueryable\<T>](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0) that has elements of type TResult obtained by performing an left outer join on two sequences.
+
 ## Example
 ```c#
-ctx.Departments.OuterJoin(ctx.Employees,
+ctx.Departments.LeftOuterJoin(ctx.Employees,
     z => z.ID,
     z => z.DepartmentID,
     (department, employee) => new
@@ -56,6 +68,119 @@ ctx.Departments.OuterJoin(ctx.Employees,
         Employee = employee.Name,
     })
 ```
+
+---
+```c#
+public static IQueryable<TResult> RughtOuterJoin<TOuter, TInner, TKey, TResult>(this 
+    IQueryable<TOuter> outer,
+    IQueryable<TInner> inner,
+    Expression<Func<TOuter, TKey>> outerKey,
+    Expression<Func<TInner, TKey>> innerKey,
+    Expression<Func<TOuter, TInner?, TResult>> resultSelector);
+```
+
+### Type Parameters
+`TOuter`
+The type of the elements of the first sequence.
+
+`TInner`
+The type of the elements of the second sequence.
+
+`TKey`
+The type of the keys returned by the key selector functions.
+
+`TResult`
+The type of the result elements.
+
+### Parameters
+`outer` [IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TOuter>  
+The first sequence to join.
+
+`inner` [IEnumerable](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-7.0)\<TInner>  
+The sequence to join to the first sequence.
+
+`outerKeySelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TKey>>  
+A function to extract the join key from each element of the first sequence.
+
+`innerKeySelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TInner,TKey>>  
+A function to extract the join key from each element of the second sequence.
+
+`resultSelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TInner,TResult>>  
+A function to create a result element from two matching elements.
+
+### Returns
+[IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TResult>  
+An [IQueryable\<T>](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0) that has elements of type TResult obtained by performing an right outer join on two sequences.
+
+## Example
+```c#
+ctx.Departments.RightOuterJoin(ctx.Employees,
+    z => z.ID,
+    z => z.DepartmentID,
+    (department, employee) => new
+    {
+        Department = department.Name,
+        Employee = employee.Name,
+    })
+```
+
+---
+
+```c#
+public static IQueryable<TResult> FullOuterJoin<TOuter, TInner, TKey, TResult>(this 
+    IQueryable<TOuter> outer,
+    IQueryable<TInner> inner,
+    Expression<Func<TOuter, TKey>> outerKey,
+    Expression<Func<TInner, TKey>> innerKey,
+    Expression<Func<TOuter, TInner?, TResult>> resultSelector);
+```
+
+### Type Parameters
+`TOuter`
+The type of the elements of the first sequence.
+
+`TInner`
+The type of the elements of the second sequence.
+
+`TKey`
+The type of the keys returned by the key selector functions.
+
+`TResult`
+The type of the result elements.
+
+### Parameters
+`outer` [IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TOuter>  
+The first sequence to join.
+
+`inner` [IEnumerable](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-7.0)\<TInner>  
+The sequence to join to the first sequence.
+
+`outerKeySelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TKey>>  
+A function to extract the join key from each element of the first sequence.
+
+`innerKeySelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TInner,TKey>>  
+A function to extract the join key from each element of the second sequence.
+
+`resultSelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TInner,TResult>>  
+A function to create a result element from two matching elements.
+
+### Returns
+[IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TResult>  
+An [IQueryable\<T>](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0) that has elements of type TResult 
+obtained by performing an full outer join on two sequences.
+
+## Example
+```c#
+ctx.Departments.FullOuterJoin(ctx.Employees,
+    z => z.ID,
+    z => z.DepartmentID,
+    (department, employee) => new
+    {
+        Department = department.Name,
+        Employee = employee.Name,
+    })
+```
+---
 
 ## Initial challenge 
 

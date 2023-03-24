@@ -8,7 +8,7 @@
     <RootNamespace>FSC.System.Linq</RootNamespace>
 	<AssemblyName>$(MSBuildProjectName.ToLower())</AssemblyName>
 	<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-	<VersionPrefix>0.0.39</VersionPrefix>
+	<VersionPrefix>0.0.40</VersionPrefix>
 	<Description>Contains Expression extension functionality for Entity Framework Core</Description>
 	<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
 	<Company>Fluent Software Corporation</Company>
@@ -55,5 +55,11 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>$(AssemblyName).Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 
 </Project>

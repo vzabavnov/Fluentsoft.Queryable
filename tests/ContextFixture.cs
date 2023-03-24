@@ -62,7 +62,12 @@ public class ContextFixture : IDisposable
             Name = "ui"
         };
 
-        ctx.Departments.AddRange(d1,d2,d3,d4);
+        var d5 = new Department
+        {
+            Name = "qa"
+        };
+
+        ctx.Departments.AddRange(d1,d2,d3,d4, d5);
 
         ctx.Employees.AddRange(
             new Employee{ Department = d1, Name="Bob"},

@@ -14,8 +14,10 @@
 // limitations under the License.
 
 using FSC.System.Linq;
+using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FSC.EntityFrameworkCore.Expressions.Tests;
 
@@ -60,7 +62,51 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
     }
 
     [Fact]
-    public async Task CheckOuterJoin()
+    public void TestFullOuterJoin()
+    {
+        using var ctx = _fixture.CreateDbContext();
+
+        var query = ctx.Departments.FullOuterJoin(ctx.Employees,
+            z => z.ID,
+            z => z.DepartmentID,
+            (department, employee) => new
+            {
+                Department = department.Name,
+                Employee = employee.Name,
+            });
+
+        var str1 = query.ToQueryString();
+
+        _output.WriteLine(str1);
+
+        var result = query.ToArray();
+
+
+    }
+
+    [Fact]
+    public void TestRightOuterJoin()
+    {
+        using var ctx = _fixture.CreateDbContext();
+
+        var query = ctx.Departments.RightOuterJoin(ctx.Employees,
+            z => z.ID,
+            z => z.DepartmentID,
+            (department, employee) => new
+            {
+                Department = department.Name,
+                Employee = employee.Name,
+            });
+
+        var str1 = query.ToQueryString();
+
+        _output.WriteLine(str1);
+
+        var result = query.ToArray();
+    }
+
+    [Fact]
+    public async Task TestOuterJoin()
     {
         await using var ctx = _fixture.CreateDbContext();
 
@@ -77,7 +123,9 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
                     Employee = e.Name
                 });
 
-        _output.WriteLine(query.ToQueryString());
+        var str1 = query.ToQueryString();
+
+        _output.WriteLine(str1);
 
 
         query = ctx.Departments.OuterJoin(ctx.Employees,
@@ -89,12 +137,25 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
                 Employee = employee.Name,
             });
 
-
-
-        _output.WriteLine(query.ToQueryString());
+        var str2 = query.ToQueryString();
+        _output.WriteLine(str2);
         
+        Assert.Equal(str1, str2);
 
         var result = await query.ToArrayAsync();
         Assert.True(result.Length > 0);
+    }
+
+    [Fact]
+    public void TestSwitch()
+    {
+        Expression<Func<int, string, KeyValuePair<int, string>>> sourceExpr = (i, s) => new KeyValuePair<int, string>(i, s);
+
+        var targetExpr = sourceExpr.SwitchParameters();
+
+        var f1 = sourceExpr.Compile();
+        var f2 = targetExpr.Compile();
+
+        Assert.Equal(f1(123, "123"), f2("123", 123));
     }
 }
