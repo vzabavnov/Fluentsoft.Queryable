@@ -3,7 +3,7 @@
 ## Definition
 Namespace: FSC.System.Linq  
 Assembly: fsc.system.linq.queriable.dll  
-Package: Queryable.OuterJoin
+Package: [Queryable.OuterJoin](https://www.nuget.org/packages/Queryable.OuterJoin)
 
 Correlates all records from the left table, and the matching records from the right table based on matching keys 
 
