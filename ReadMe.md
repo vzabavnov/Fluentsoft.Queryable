@@ -2,7 +2,7 @@
 
 ## Definition
 Namespace: FSC.System.Linq  
-Assembly: fsc.system.linq.queriable.dll  
+Assembly: fsc.system.linq.queryable.dll  
 Package: [Queryable.OuterJoin](https://www.nuget.org/packages/Queryable.OuterJoin)
 
 | *Methods*      | *Description* |
