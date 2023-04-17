@@ -18,25 +18,31 @@ namespace FSC.System.Linq;
 public static class Queryable
 {
     /// <summary>
-    /// Correlates all records from the left table, and the matching records from the right table based on matching keys 
+    ///     Correlates all records from the left table, and the matching records from the right table based on matching keys
     /// </summary>
     /// <typeparam name="TOuter">The type of the elements of the first sequence.</typeparam>
     /// <typeparam name="TInner">The type of the elements of the second sequence.</typeparam>
     /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
     /// <typeparam name="TResult">The type of the result elements.</typeparam>
-    /// <param name="outer"><see cref="IQueryable{TOuter}"/>
-    /// The first sequence to join.</param>
-    /// <param name="inner"><see cref="IEnumerable{TInner}"/>
-    /// The sequence to join to the first sequence.
+    /// <param name="outer">
+    ///     <see cref="IQueryable{TOuter}" />
+    ///     The first sequence to join.
     /// </param>
-    /// <param name="outerKey"><see cref="Expression{T}"/> of <see cref="Func{TOuter, TKey}"/>
-    /// An expression to extract the join key from each element of the first sequence.
+    /// <param name="inner">
+    ///     <see cref="IEnumerable{TInner}" />
+    ///     The sequence to join to the first sequence.
     /// </param>
-    /// <param name="innerKey"><see cref="Expression{T}"/> of <see cref="Func{TOuter, TKey}"/>
-    /// An expression to extract the join key from each element of the second sequence.
+    /// <param name="outerKey">
+    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TKey}" />
+    ///     An expression to extract the join key from each element of the first sequence.
     /// </param>
-    /// <param name="resultSelector"><see cref="Expression{T}"/> of <see cref="Func{TOuter, TOuter, TResult}"/>
-    /// An expression to create a result element from two matching elements.
+    /// <param name="innerKey">
+    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TKey}" />
+    ///     An expression to extract the join key from each element of the second sequence.
+    /// </param>
+    /// <param name="resultSelector">
+    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TOuter, TResult}" />
+    ///     An expression to create a result element from two matching elements.
     /// </param>
     /// <returns></returns>
     [Obsolete("Use LeftOuterJoin instead")]
@@ -44,46 +50,58 @@ public static class Queryable
         IQueryable<TInner> inner,
         Expression<Func<TOuter, TKey>> outerKey,
         Expression<Func<TInner, TKey>> innerKey,
-        Expression<Func<TOuter?, TInner?, TResult>> resultSelector)
+        Expression<Func<TOuter, TInner?, TResult>> resultSelector)
     {
-         return LeftOuterJoin(outer, inner, outerKey, innerKey, resultSelector);
+        return LeftOuterJoin(outer, inner, outerKey, innerKey, resultSelector);
     }
 
     /// <summary>
-    /// Correlates all records from the left table, and the matching records from the right table based on matching keys 
+    ///     Correlates all records from the left table, and the matching records from the right table based on matching keys
     /// </summary>
     /// <typeparam name="TOuter">The type of the elements of the first sequence.</typeparam>
     /// <typeparam name="TInner">The type of the elements of the second sequence.</typeparam>
     /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
     /// <typeparam name="TResult">The type of the result elements.</typeparam>
-    /// <param name="outer"><see cref="IQueryable{TOuter}"/>
-    /// The first sequence to join.</param>
-    /// <param name="inner"><see cref="IEnumerable{TInner}"/>
-    /// The sequence to join to the first sequence.
+    /// <param name="outer">
+    ///     <see cref="IQueryable{TOuter}" />
+    ///     The first sequence to join.
     /// </param>
-    /// <param name="outerKey"><see cref="Expression{T}"/> of <see cref="Func{TOuter, TKey}"/>
-    /// An expression to extract the join key from each element of the first sequence.
+    /// <param name="inner">
+    ///     <see cref="IEnumerable{TInner}" />
+    ///     The sequence to join to the first sequence.
     /// </param>
-    /// <param name="innerKey"><see cref="Expression{T}"/> of <see cref="Func{TOuter, TKey}"/>
-    /// An expression to extract the join key from each element of the second sequence.
+    /// <param name="outerKey">
+    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TKey}" />
+    ///     An expression to extract the join key from each element of the first sequence.
     /// </param>
-    /// <param name="resultSelector"><see cref="Expression{T}"/> of <see cref="Func{TOuter, TOuter, TResult}"/>
-    /// An expression to create a result element from two matching elements.
+    /// <param name="innerKey">
+    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TKey}" />
+    ///     An expression to extract the join key from each element of the second sequence.
+    /// </param>
+    /// <param name="resultSelector">
+    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TOuter, TResult}" />
+    ///     An expression to create a result element from two matching elements.
     /// </param>
     public static IQueryable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(this IQueryable<TOuter> outer,
         IQueryable<TInner> inner,
         Expression<Func<TOuter, TKey>> outerKey,
         Expression<Func<TInner, TKey>> innerKey,
-        Expression<Func<TOuter?, TInner?, TResult>> resultSelector)
+        Expression<Func<TOuter, TInner?, TResult>> resultSelector)
     {
-        return outer
-            .GroupJoin(
-                inner,
+        return outer.GroupJoin(inner,
                 outerKey,
                 innerKey,
-                (o, i) => new { o, i })
+                (o, i) => new
+                {
+                    o,
+                    i
+                })
             .SelectMany(z => z.i.DefaultIfEmpty(),
-                (t, i) => new { t.o, i })
+                (t, i) => new
+                {
+                    t.o,
+                    i
+                })
             .Select(resultSelector);
     }
 
@@ -91,14 +109,22 @@ public static class Queryable
         IQueryable<TInner> inner,
         Expression<Func<TOuter, TKey>> outerKey,
         Expression<Func<TInner, TKey>> innerKey,
-        Expression<Func<TOuter?, TInner?, TResult>> resultSelector)
+        Expression<Func<TOuter?, TInner, TResult>> resultSelector)
     {
         return inner.GroupJoin(outer,
                 innerKey,
                 outerKey,
-                (o, i) => new { o, i })
+                (o, i) => new
+                {
+                    o,
+                    i
+                })
             .SelectMany(z => z.i.DefaultIfEmpty(),
-                (t, i) => new { t.o, i })
+                (t, i) => new
+                {
+                    t.o,
+                    i
+                })
             .Select(resultSelector.SwitchParameters());
     }
 
@@ -108,8 +134,36 @@ public static class Queryable
         Expression<Func<TInner, TKey>> innerKey,
         Expression<Func<TOuter?, TInner?, TResult>> resultSelector)
     {
-        return outer.LeftOuterJoin(inner, outerKey, innerKey, resultSelector)
-            .Union(outer.RightOuterJoin(inner, outerKey, innerKey, resultSelector));
+        return outer.GroupJoin(inner,
+                outerKey,
+                innerKey,
+                (o, i) => new
+                {
+                    o,
+                    i
+                })
+            .SelectMany(z => z.i.DefaultIfEmpty(),
+                (t, i) => new
+                {
+                    t.o,
+                    i
+                })
+            .Select(resultSelector)
+            .Union(inner.GroupJoin(outer,
+                    innerKey,
+                    outerKey,
+                    (o, i) => new
+                    {
+                        o,
+                        i
+                    })
+                .SelectMany(z => z.i.DefaultIfEmpty(),
+                    (t, i) => new
+                    {
+                        t.o,
+                        i
+                    })
+                .Select(resultSelector.SwitchParameters()));
     }
 
     public static IQueryable<TResult> Select<T, TResult, T1, T2>(this IQueryable<T> source, Expression<Func<T1, T2, TResult>> selector)

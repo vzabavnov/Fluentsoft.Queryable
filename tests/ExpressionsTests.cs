@@ -17,7 +17,6 @@ using FSC.System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FSC.EntityFrameworkCore.Expressions.Tests;
 
@@ -69,10 +68,10 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
         var query = ctx.Departments.FullOuterJoin(ctx.Employees,
             z => z.ID,
             z => z.DepartmentID,
-            (department, employee) => new
+            (d, e) => new
             {
-                Department = department.Name,
-                Employee = employee.Name,
+                Department = d != null ? d.Name : null,
+                Employee = e != null ? e.Name : null,
             });
 
         var str1 = query.ToQueryString();
@@ -80,8 +79,6 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
         _output.WriteLine(str1);
 
         var result = query.ToArray();
-
-
     }
 
     [Fact]
@@ -92,9 +89,9 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
         var query = ctx.Departments.RightOuterJoin(ctx.Employees,
             z => z.ID,
             z => z.DepartmentID,
-            (department, employee) => new
+            (d, employee) => new
             {
-                Department = department.Name,
+                Department = d != null ?  d.Name : null,
                 Employee = employee.Name,
             });
 
@@ -106,7 +103,7 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
     }
 
     [Fact]
-    public async Task TestOuterJoin()
+    public async Task TestLeftOuterJoin()
     {
         await using var ctx = _fixture.CreateDbContext();
 
@@ -120,21 +117,20 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
                 (a, e) => new 
                 {
                     Department = a.dep.Name,
-                    Employee = e.Name
+                    Employee = e != null ? e.Name : null
                 });
 
         var str1 = query.ToQueryString();
 
         _output.WriteLine(str1);
 
-
-        query = ctx.Departments.OuterJoin(ctx.Employees,
+        query = ctx.Departments.LeftOuterJoin(ctx.Employees,
             z => z.ID,
             z => z.DepartmentID,
             (department, employee) => new
             {
                 Department = department.Name,
-                Employee = employee.Name,
+                Employee = employee != null ? employee.Name : null,
             });
 
         var str2 = query.ToQueryString();
