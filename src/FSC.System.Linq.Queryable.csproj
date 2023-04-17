@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <RootNamespace>FSC.System.Linq</RootNamespace>
 	<AssemblyName>fsc.system.linq.queryable.dll</AssemblyName>
 	<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-	<VersionPrefix>0.0.42</VersionPrefix>
+	<VersionPrefix>1.0.0</VersionPrefix>
 	<Description>Contains Expression extension functionality for Entity Framework Core</Description>
 	<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
 	<Company>Fluent Software Corporation</Company>
