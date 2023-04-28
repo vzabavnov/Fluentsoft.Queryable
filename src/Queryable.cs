@@ -83,7 +83,7 @@ public static class Queryable
     ///     An expression to create a result element from two matching elements.
     /// </param>
     public static IQueryable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(this IQueryable<TOuter> outer,
-        IQueryable<TInner> inner,
+        IEnumerable<TInner> inner,
         Expression<Func<TOuter, TKey>> outerKey,
         Expression<Func<TInner, TKey>> innerKey,
         Expression<Func<TOuter, TInner?, TResult>> resultSelector)
@@ -105,7 +105,7 @@ public static class Queryable
             .Select(resultSelector);
     }
 
-    public static IQueryable<TResult> RightOuterJoin<TOuter, TInner, TKey, TResult>(this IQueryable<TOuter> outer,
+    public static IQueryable<TResult> RightOuterJoin<TOuter, TInner, TKey, TResult>(this IEnumerable<TOuter> outer,
         IQueryable<TInner> inner,
         Expression<Func<TOuter, TKey>> outerKey,
         Expression<Func<TInner, TKey>> innerKey,

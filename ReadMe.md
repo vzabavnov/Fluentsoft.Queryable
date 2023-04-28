@@ -18,7 +18,7 @@ Correlates all records from the left table, and the matching records from the ri
 ```c#
 public static IQueryable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(this 
     IQueryable<TOuter> outer,
-    IQueryable<TInner> inner,
+    IEnumerable<TInner> inner,
     Expression<Func<TOuter, TKey>> outerKey,
     Expression<Func<TInner, TKey>> innerKey,
     Expression<Func<TOuter, TInner?, TResult>> resultSelector);
@@ -72,7 +72,7 @@ ctx.Departments.LeftOuterJoin(ctx.Employees,
 ---
 ```c#
 public static IQueryable<TResult> RughtOuterJoin<TOuter, TInner, TKey, TResult>(this 
-    IQueryable<TOuter> outer,
+    IEnumerable<TOuter> outer,
     IQueryable<TInner> inner,
     Expression<Func<TOuter, TKey>> outerKey,
     Expression<Func<TInner, TKey>> innerKey,
@@ -93,10 +93,10 @@ The type of the keys returned by the key selector functions.
 The type of the result elements.
 
 ### Parameters
-`outer` [IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TOuter>  
+`outer` [IEnumerable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.ienumerable-1?view=net-7.0)\<TOuter>  
 The first sequence to join.
 
-`inner` [IEnumerable](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-7.0)\<TInner>  
+`inner` [IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.iqueryable-1?view=net-7.0)\<TInner>  
 The sequence to join to the first sequence.
 
 `outerKeySelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TKey>>  
@@ -152,7 +152,7 @@ The type of the result elements.
 `outer` [IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0)\<TOuter>  
 The first sequence to join.
 
-`inner` [IEnumerable](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-7.0)\<TInner>  
+`inner` [IQueryable](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.iqueryable-1?view=net-7.0)\<TInner>  
 The sequence to join to the first sequence.
 
 `outerKeySelector` [Expression](https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression-1?view=net-7.0)\<Func<TOuter,TKey>>  
