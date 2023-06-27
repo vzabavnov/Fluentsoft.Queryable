@@ -15,7 +15,7 @@
 
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FSC.EntityFrameworkCore.Expressions.Tests;
+namespace FSC.System.Linq.Queryable.Tests;
 
 [EntityTypeConfiguration(typeof(DepartmentConfig))]
 public class Department

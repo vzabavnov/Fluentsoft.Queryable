@@ -1,15 +1,26 @@
-﻿# Queryable.OuterJoin Method
-
-## Definition
+﻿# Queryable Class
+## Definitions 
 Namespace: FSC.System.Linq  
 Assembly: fsc.system.linq.queryable.dll  
 Package: [Queryable.OuterJoin](https://www.nuget.org/packages/Queryable.OuterJoin)
+
+Provides a set of static (Shared in Visual Basic) methods for querying data structures that implement [IQueryable<T>](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0).
+
+```c#
+public static class Queryable
+```
+
+## Methods
 
 | *Methods*      | *Description* |
 |--------------|-------------|
 |LeftOuterJoin|Correlates all records from the left table, and the matching records from the right table based on matching keys |
 |RightOuterJoin|Correlates all records from the right table, and the matching records from the left table based on matching keys |
 |FullOuterJoin|Correlates all records from the right table, and all records from the left table based on matching keys |
+|Select<T, TResult, T1, T2>(IQueryable<T> source, Expression<Func<T1, T2, TResult>> selector)|Projects each element of a sequence into a new form.|
+|IQueryable<TResult> Select<T, TResult, T1, T2, T3>(IQueryable<T> source, Expression<Func<T1, T2, T3, TResult>> selector)|Projects each element of a sequence into a new form.|
+|IQueryable<T> Where<T, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, bool>> predicate)|Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.|
+|IQueryable<T> Where<T, T1, T2>(IQueryable<T> source, Expression<Func<T1, T2, bool>> predicate)|Filters a sequence of values based on a predicate with two arguments taken from source value by splitting.|
 
 ---
 

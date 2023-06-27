@@ -44,44 +44,6 @@ public static class Queryable
     ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TOuter, TResult}" />
     ///     An expression to create a result element from two matching elements.
     /// </param>
-    /// <returns></returns>
-    [Obsolete("Use LeftOuterJoin instead")]
-    public static IQueryable<TResult> OuterJoin<TOuter, TInner, TKey, TResult>(this IQueryable<TOuter> outer,
-        IQueryable<TInner> inner,
-        Expression<Func<TOuter, TKey>> outerKey,
-        Expression<Func<TInner, TKey>> innerKey,
-        Expression<Func<TOuter, TInner?, TResult>> resultSelector)
-    {
-        return LeftOuterJoin(outer, inner, outerKey, innerKey, resultSelector);
-    }
-
-    /// <summary>
-    ///     Correlates all records from the left table, and the matching records from the right table based on matching keys
-    /// </summary>
-    /// <typeparam name="TOuter">The type of the elements of the first sequence.</typeparam>
-    /// <typeparam name="TInner">The type of the elements of the second sequence.</typeparam>
-    /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
-    /// <typeparam name="TResult">The type of the result elements.</typeparam>
-    /// <param name="outer">
-    ///     <see cref="IQueryable{TOuter}" />
-    ///     The first sequence to join.
-    /// </param>
-    /// <param name="inner">
-    ///     <see cref="IEnumerable{TInner}" />
-    ///     The sequence to join to the first sequence.
-    /// </param>
-    /// <param name="outerKey">
-    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TKey}" />
-    ///     An expression to extract the join key from each element of the first sequence.
-    /// </param>
-    /// <param name="innerKey">
-    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TKey}" />
-    ///     An expression to extract the join key from each element of the second sequence.
-    /// </param>
-    /// <param name="resultSelector">
-    ///     <see cref="Expression{T}" /> of <see cref="Func{TOuter, TOuter, TResult}" />
-    ///     An expression to create a result element from two matching elements.
-    /// </param>
     public static IQueryable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(this IQueryable<TOuter> outer,
         IEnumerable<TInner> inner,
         Expression<Func<TOuter, TKey>> outerKey,
@@ -166,11 +128,33 @@ public static class Queryable
                 .Select(resultSelector.SwitchParameters()));
     }
 
+    /// <summary>
+    /// Projects each element of a sequence into a new form.
+    /// </summary>
     public static IQueryable<TResult> Select<T, TResult, T1, T2>(this IQueryable<T> source, Expression<Func<T1, T2, TResult>> selector)
     {
         return source.Select(selector.SplitParameters<T1, T2, T, TResult>());
     }
 
+    /// <summary>
+    /// Projects each element of a sequence into a new form.
+    /// </summary>
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, TResult>> selector)
+    {
+        return source.Select(selector.SplitParameters<T1, T2, T3, T, TResult>());
+    }
+
+    /// <summary>
+    /// Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T, bool>());
+    }
+
+    /// <summary>
+    /// Filters a sequence of values based on a predicate with two arguments taken from source value by splitting.
+    /// </summary>
     public static IQueryable<T> Where<T, T1, T2>(this IQueryable<T> source, Expression<Func<T1, T2, bool>> predicate)
     {
         return source.Where(predicate.SplitParameters<T1, T2, T, bool>());

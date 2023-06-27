@@ -1,60 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <RootNamespace>FSC.System.Linq</RootNamespace>
-	<AssemblyName>fsc.system.linq.queryable.dll</AssemblyName>
-	<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-	<VersionPrefix>1.0.1</VersionPrefix>
-	<Description>Contains Expression extension functionality for Entity Framework Core</Description>
-	<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
-	<Company>Fluent Software Corporation</Company>
-	<Authors>Vadim Zabavnov</Authors>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<PackageTags>Entity Framework;Expression;Linq;</PackageTags>
-	<PackageOutputPath>..\Package</PackageOutputPath>
-	<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	<Title>Queryable.OuterJoin</Title>
-	<PackageProjectUrl>https://github.com/vzabavnov/FSC.System.Linq.Queryable</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/vzabavnov/FSC.System.Linq.Queryable</RepositoryUrl>
-	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	<IncludeSymbols>True</IncludeSymbols>
-	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	<PackageId>Queryable.OuterJoin</PackageId>
-  </PropertyGroup>
+	<PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-  </PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net7.0;net6.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>Latest</LangVersion>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-  </PropertyGroup>
+		<RootNamespace>FSC.System.Linq</RootNamespace>
+		<AssemblyName>fsc.system.linq.queryable</AssemblyName>
+		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+		<VersionPrefix>1.0.2</VersionPrefix>
+		<Description>Contains Expression extension functionality for Entity Framework Core</Description>
+		<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
+		<Company>Fluent Software Corporation</Company>
+		<Authors>Vadim Zabavnov</Authors>
 
-  <ItemGroup>
-    <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\ReadMe.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageTags>Entity Framework;Expression;Linq;Left Outer Join;Right Other Join;Full Join</PackageTags>
+		<PackageOutputPath>..\Package</PackageOutputPath>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Title>Queryable.OuterJoin</Title>
+		<PackageProjectUrl>https://github.com/vzabavnov/FSC.System.Linq.Queryable</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/vzabavnov/FSC.System.Linq.Queryable</RepositoryUrl>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageId>Queryable.OuterJoin</PackageId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Update="LICENSE">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="ReadMe.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<WarningLevel>9999</WarningLevel>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<WarningLevel>9999</WarningLevel>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE" Pack="True" PackagePath="\" />
+		<None Include="..\ReadMe.md" Pack="True" PackagePath="\" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">

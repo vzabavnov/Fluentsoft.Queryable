@@ -13,12 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using FSC.System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace FSC.EntityFrameworkCore.Expressions.Tests;
+namespace FSC.System.Linq.Queryable.Tests;
 
 public class ExpressionsTests : IClassFixture<ContextFixture>
 {
@@ -50,11 +49,10 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
             (department, employee) => new
             {
                 Department = department.Name,
-                Employee = employee.Name,
+                Employee = employee.Name
             });
 
         _output.WriteLine(query.ToQueryString());
-        
 
         var result = await query.ToArrayAsync();
         Assert.True(result.Length > 0);
@@ -71,14 +69,12 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
             (d, e) => new
             {
                 Department = d != null ? d.Name : null,
-                Employee = e != null ? e.Name : null,
+                Employee = e != null ? e.Name : null
             });
 
         var str1 = query.ToQueryString();
 
         _output.WriteLine(str1);
-
-        var result = query.ToArray();
     }
 
     [Fact]
@@ -91,15 +87,13 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
             z => z.DepartmentID,
             (d, employee) => new
             {
-                Department = d != null ?  d.Name : null,
-                Employee = employee.Name,
+                Department = d != null ? d.Name : null,
+                Employee = employee.Name
             });
 
         var str1 = query.ToQueryString();
 
         _output.WriteLine(str1);
-
-        var result = query.ToArray();
     }
 
     [Fact]
@@ -107,16 +101,18 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
     {
         await using var ctx = _fixture.CreateDbContext();
 
-        var query = ctx.Departments
-            .GroupJoin(ctx.Employees,
+        var query = ctx.Departments.GroupJoin(ctx.Employees,
                 d => d.ID,
                 e => e.DepartmentID,
-                (dep, emps) => new { dep, emps })
-            .SelectMany(
-                g=> g.emps.DefaultIfEmpty(),
-                (a, e) => new 
+                (department, employees) => new
                 {
-                    Department = a.dep.Name,
+                    department,
+                    employees
+                })
+            .SelectMany(g => g.employees.DefaultIfEmpty(),
+                (a, e) => new
+                {
+                    Department = a.department.Name,
                     Employee = e != null ? e.Name : null
                 });
 
@@ -130,12 +126,12 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
             (department, employee) => new
             {
                 Department = department.Name,
-                Employee = employee != null ? employee.Name : null,
+                Employee = employee != null ? employee.Name : null
             });
 
         var str2 = query.ToQueryString();
         _output.WriteLine(str2);
-        
+
         Assert.Equal(str1, str2);
 
         var result = await query.ToArrayAsync();
@@ -153,5 +149,50 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
         var f2 = targetExpr.Compile();
 
         Assert.Equal(f1(123, "123"), f2("123", 123));
+    }
+
+    [Fact]
+    public void TestSplitExpression()
+    {
+        Expression<Func<int, string, string>> sourceExpr = (i, s) => s + i;
+
+        var targetExpr = sourceExpr.SplitParameters<int, string, KeyValuePair<int, string>, string>();
+        var f1 = sourceExpr.Compile();
+        var f2 = targetExpr.Compile();
+        var s1 = f1(2, "5");
+        Assert.Equal("52", s1);
+
+        var s2 = f2(new KeyValuePair<int, string>(2, "5"));
+        Assert.Equal("52", s2);
+    }
+
+    [Fact]
+    public void TestSplitExpressionTwoSameType()
+    {
+        Expression<Func<int, int, string>> sourceExpr = (i1, i2) => i2 + i1.ToString();
+
+        var targetExpr = sourceExpr.SplitParameters<int, int, KeyValuePair<int, int>, string>();
+        var f1 = sourceExpr.Compile();
+        var f2 = targetExpr.Compile();
+        var s1 = f1(2, 5);
+        Assert.Equal("52", s1);
+
+        var s2 = f2(new KeyValuePair<int, int>(2, 5));
+        Assert.Equal("52", s2);
+    }
+
+    [Fact]
+    public void TestSplitExpressionThreeArguments()
+    {
+        Expression<Func<int, string, bool, string>> sourceExpr = (i, s, b) => s + i + b;
+
+        var targetExpr = sourceExpr.SplitParameters<int, string, bool, Tuple<int, string, bool>, string>();
+        var f1 = sourceExpr.Compile();
+        var f2 = targetExpr.Compile();
+        var s1 = f1(2, "5", true);
+        Assert.Equal("52True", s1);
+
+        var s2 = f2(new Tuple<int, string, bool>(2, "5", true));
+        Assert.Equal("52True", s2);
     }
 }

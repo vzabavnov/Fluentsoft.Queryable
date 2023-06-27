@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace FSC.EntityFrameworkCore.Expressions.Tests;
+namespace FSC.System.Linq.Queryable.Tests;
 
 public class TestDbContext : DbContext
 {
