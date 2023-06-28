@@ -9,10 +9,10 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 
 		<RootNamespace>Fluentsoft.System.Linq</RootNamespace>
-		<AssemblyName>fluentsoft.system.linq.queryable</AssemblyName>
+		<AssemblyName>fluentsoft.queryable</AssemblyName>
 		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-		<VersionPrefix>1.0.3</VersionPrefix>
-		<Description>Contains Expression extension functionality for Entity Framework Core</Description>
+		<VersionPrefix>1.0.4</VersionPrefix>
+		<Description>Queriable Expression extensions</Description>
 		<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
 		<Company>Fluent Software Corporation</Company>
 		<Authors>Vadim Zabavnov</Authors>
