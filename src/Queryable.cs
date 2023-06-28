@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace FSC.System.Linq;
+namespace Fluentsoft.System.Linq;
 
 public static class Queryable
 {

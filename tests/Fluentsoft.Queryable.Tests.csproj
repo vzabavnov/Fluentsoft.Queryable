@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\FSC.System.Linq.Queryable.csproj" />
+    <ProjectReference Include="..\src\Fluentsoft.Queryable.csproj" />
   </ItemGroup>
 
 </Project>

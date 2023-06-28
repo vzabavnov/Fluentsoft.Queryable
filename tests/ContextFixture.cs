@@ -15,7 +15,7 @@
 
 using Microsoft.Data.Sqlite;
 
-namespace FSC.System.Linq.Queryable.Tests;
+namespace Fluentsoft.System.Linq.Queryable.Tests;
 
 public class ContextFixture : IDisposable
 {

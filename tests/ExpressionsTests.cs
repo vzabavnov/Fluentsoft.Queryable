@@ -17,7 +17,7 @@ using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace FSC.System.Linq.Queryable.Tests;
+namespace Fluentsoft.System.Linq.Queryable.Tests;
 
 public class ExpressionsTests : IClassFixture<ContextFixture>
 {

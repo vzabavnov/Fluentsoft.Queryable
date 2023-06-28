@@ -15,7 +15,7 @@
 
 using System.Reflection;
 
-namespace FSC.System.Linq;
+namespace Fluentsoft.System.Linq;
 
 internal abstract class SplitParameterVisitor<T, TResult> : ExpressionVisitor
 {

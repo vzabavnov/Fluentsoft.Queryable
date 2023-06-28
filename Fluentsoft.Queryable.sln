@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSC.System.Linq.Queryable", "src\FSC.System.Linq.Queryable.csproj", "{2049D575-53FB-4E97-AC13-F13A46E3ACE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluentsoft.Queryable", "src\Fluentsoft.Queryable.csproj", "{2049D575-53FB-4E97-AC13-F13A46E3ACE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSC.System.Linq.Queryable.Tests", "tests\FSC.System.Linq.Queryable.Tests.csproj", "{C713F268-52DD-4BFC-B749-58F55B9027ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluentsoft.Queryable.Tests", "tests\Fluentsoft.Queryable.Tests.csproj", "{C713F268-52DD-4BFC-B749-58F55B9027ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
