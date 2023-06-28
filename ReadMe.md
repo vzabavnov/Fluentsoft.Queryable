@@ -2,7 +2,7 @@
 ## Definitions 
 Namespace: Fluentsoft.System.Linq  
 Assembly: fluentsoft.system.linq.queryable.dll  
-Package: [Queryable.OuterJoin](https://www.nuget.org/packages/Queryable.OuterJoin)
+Package: [Fluentsoft.Queryable](https://www.nuget.org/packages/Fluentsoft.Queryable)
 
 Provides a set of static (Shared in Visual Basic) methods for querying data structures that implement [IQueryable<T>](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-7.0).
 
