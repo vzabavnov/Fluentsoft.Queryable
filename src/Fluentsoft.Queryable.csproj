@@ -21,7 +21,7 @@
 		<PackageTags>Entity Framework;Expression;Linq;Left;Right;Full;Outer;Join</PackageTags>
 		<PackageOutputPath>..\Package</PackageOutputPath>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Title>Fluentsoft Queryable OuterJoin</Title>
+		<Title>Fluentsoft Queryable Extensions</Title>
 		<PackageProjectUrl>https://github.com/vzabavnov/Fluentsoft.Queryable</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/vzabavnov/Fluentsoft.Queryable</RepositoryUrl>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
