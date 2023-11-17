@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 
-		<TargetFrameworks>netstandard2.0;net7.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net7.0;net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>Latest</LangVersion>
@@ -11,7 +11,7 @@
 		<RootNamespace>Fluentsoft.System.Linq</RootNamespace>
 		<AssemblyName>fluentsoft.queryable</AssemblyName>
 		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-		<VersionPrefix>1.0.4</VersionPrefix>
+		<VersionPrefix>2.0.0</VersionPrefix>
 		<Description>Queriable Expression extensions</Description>
 		<Copyright>Copyright Fluent Software Corporation 2023</Copyright>
 		<Company>Fluent Software Corporation</Company>
@@ -19,7 +19,7 @@
 
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageTags>Entity Framework;Expression;Linq;Left;Right;Full;Outer;Join</PackageTags>
-		<PackageOutputPath>..\Package</PackageOutputPath>
+		<PackageOutputPath>..\..\Package</PackageOutputPath>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<Title>Fluentsoft Queryable Extensions</Title>
 		<PackageProjectUrl>https://github.com/vzabavnov/Fluentsoft.Queryable</PackageProjectUrl>
