@@ -19,14 +19,14 @@ namespace Fluentsoft.System.Linq;
 
 internal abstract class SplitParameterVisitor<T, TResult> : ExpressionVisitor
 {
-    protected ParameterExpression _parameterExpression;
     private readonly PropertyInfo[] _properties;
+    protected ParameterExpression _parameterExpression;
 
     protected SplitParameterVisitor()
     {
         var type = typeof(T);
         const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty;
-        _properties = type.GetProperties(FLAGS).ToArray();
+        _properties = type.GetProperties(FLAGS);
 
         _parameterExpression = Expression.Parameter(type);
     }
@@ -35,7 +35,7 @@ internal abstract class SplitParameterVisitor<T, TResult> : ExpressionVisitor
 
     public Expression<Func<T, TResult>> Translate()
     {
-        return Expression.Lambda<Func<T, TResult>>(base.Visit(GetExpressionBody())!, _parameterExpression);
+        return Expression.Lambda<Func<T, TResult>>(base.Visit(GetExpressionBody()), _parameterExpression);
     }
 
     protected string GetProperty<TArg>(int skip)
@@ -67,7 +67,7 @@ internal class SplitParameterVisitor<TArg1, TArg2, T, TResult> : SplitParameterV
 
         var prop1Name = GetProperty<TArg1>(0);
         var prop2Name = GetProperty<TArg2>(typeof(TArg1) == typeof(TArg2) ? 1 : 0);
-        
+
         _arg1Expression = Expression.Property(_parameterExpression, prop1Name);
         _arg2Expression = Expression.Property(_parameterExpression, prop2Name);
     }
@@ -87,10 +87,13 @@ internal class SplitParameterVisitor<TArg1, TArg2, T, TResult> : SplitParameterV
         return base.VisitParameter(node);
     }
 
-    protected override Expression GetExpressionBody() => _expression.Body;
+    protected override Expression GetExpressionBody()
+    {
+        return _expression.Body;
+    }
 }
 
-internal class SplitParameterVisitor<TArg1, TArg2, TArg3, T, TResult> : SplitParameterVisitor<T, TResult> 
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, T, TResult> : SplitParameterVisitor<T, TResult>
 {
     private readonly MemberExpression _arg1Expression;
     private readonly MemberExpression _arg2Expression;
@@ -99,7 +102,7 @@ internal class SplitParameterVisitor<TArg1, TArg2, TArg3, T, TResult> : SplitPar
     private readonly ParameterExpression _p1;
     private readonly ParameterExpression _p2;
     private readonly ParameterExpression _p3;
-    
+
     public SplitParameterVisitor(Expression<Func<TArg1, TArg2, TArg3, TResult>> expression)
     {
         _expression = expression;
@@ -143,7 +146,10 @@ internal class SplitParameterVisitor<TArg1, TArg2, TArg3, T, TResult> : SplitPar
         _arg3Expression = Expression.Property(_parameterExpression, prop3Name);
     }
 
-    protected override Expression GetExpressionBody() => _expression.Body;
+    protected override Expression GetExpressionBody()
+    {
+        return _expression.Body;
+    }
 
     protected override Expression VisitParameter(ParameterExpression node)
     {

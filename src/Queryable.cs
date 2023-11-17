@@ -129,7 +129,7 @@ public static class Queryable
     }
 
     /// <summary>
-    /// Projects each element of a sequence into a new form.
+    ///     Projects each element of a sequence into a new form.
     /// </summary>
     public static IQueryable<TResult> Select<T, TResult, T1, T2>(this IQueryable<T> source, Expression<Func<T1, T2, TResult>> selector)
     {
@@ -137,15 +137,16 @@ public static class Queryable
     }
 
     /// <summary>
-    /// Projects each element of a sequence into a new form.
+    ///     Projects each element of a sequence into a new form.
     /// </summary>
-    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, TResult>> selector)
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, TResult>> selector)
     {
         return source.Select(selector.SplitParameters<T1, T2, T3, T, TResult>());
     }
 
     /// <summary>
-    /// Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
     /// </summary>
     public static IQueryable<T> Where<T, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, bool>> predicate)
     {
@@ -153,7 +154,7 @@ public static class Queryable
     }
 
     /// <summary>
-    /// Filters a sequence of values based on a predicate with two arguments taken from source value by splitting.
+    ///     Filters a sequence of values based on a predicate with two arguments taken from source value by splitting.
     /// </summary>
     public static IQueryable<T> Where<T, T1, T2>(this IQueryable<T> source, Expression<Func<T1, T2, bool>> predicate)
     {
