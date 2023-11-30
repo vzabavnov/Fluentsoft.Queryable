@@ -73,4 +73,34 @@ public static class ExpressionExtensions
     {
         return new SplitParameterVisitor<T1, T2, T3, T, TResult>(expression).Translate();
     }
+
+    public static Expression<Func<T, TResult>> SplitParameters<T1, T2, T3, T4, T, TResult>(
+        this Expression<Func<T1, T2, T3, T4, TResult>> expression)
+    {
+        return new SplitParameterVisitor<T1, T2, T3, T4, T, TResult>(expression).Translate();
+    }
+
+    public static Expression<Func<T, TResult>> SplitParameters<T1, T2, T3, T4, T5, T, TResult>(
+        this Expression<Func<T1, T2, T3, T4, T5, TResult>> expression)
+    {
+        return new SplitParameterVisitor<T1, T2, T3, T4, T5, T, TResult>(expression).Translate();
+    }
+
+    public static Expression<Func<T, TResult>> SplitParameters<T1, T2, T3, T4, T5, T6, T, TResult>(
+        this Expression<Func<T1, T2, T3, T4, T5, T6, TResult>> expression)
+    {
+        return new SplitParameterVisitor<T1, T2, T3, T4, T5, T6, T, TResult>(expression).Translate();
+    }
+
+    public static Expression<Func<T, TResult>> SplitParameters<T1, T2, T3, T4, T5, T6, T7, T, TResult>(
+        this Expression<Func<T1, T2, T3, T4, T5, T6, T7, TResult>> expression)
+    {
+        return new SplitParameterVisitor<T1, T2, T3, T4, T5, T6, T7, T, TResult>(expression).Translate();
+    }
+
+    public static Expression<Func<T, TResult>> SplitParameters<T1, T2, T3, T4, T5, T6, T7, T8, T, TResult>(
+        this Expression<Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>> expression)
+    {
+        return new SplitParameterVisitor<T1, T2, T3, T4, T5, T6, T7, T8, T, TResult>(expression).Translate();
+    }
 }

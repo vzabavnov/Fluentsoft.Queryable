@@ -4,7 +4,7 @@ Namespace: Fluentsoft.System.Linq
 Assembly: fluentsoft.queryable.dll  
 Package: [Fluentsoft.Queryable](https://www.nuget.org/packages/Fluentsoft.Queryable)
 
-## Namespace _Fluentsoft.System.Linq_
+## Namespace: _Fluentsoft.System.Linq_
 
 | class | Description|
 |-|-|

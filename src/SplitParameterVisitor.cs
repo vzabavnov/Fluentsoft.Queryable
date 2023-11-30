@@ -13,161 +13,102 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.ObjectModel;
 using System.Reflection;
 
 namespace Fluentsoft.System.Linq;
 
-internal abstract class SplitParameterVisitor<T, TResult> : ExpressionVisitor
+internal abstract class SplitParameterVisitor<T, TResult>(IReadOnlyDictionary<ParameterExpression, MemberExpression> map,
+    Expression expressionBody) : ExpressionVisitor
 {
-    private readonly PropertyInfo[] _properties;
-    protected ParameterExpression _parameterExpression;
+    protected static ParameterExpression _parameterExpression = Expression.Parameter(typeof(T));
+    protected readonly Expression _expressionBody = expressionBody;
 
-    protected SplitParameterVisitor()
+    protected override Expression VisitParameter(ParameterExpression node)
     {
-        var type = typeof(T);
-        const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty;
-        _properties = type.GetProperties(FLAGS);
-
-        _parameterExpression = Expression.Parameter(type);
+        return map.TryGetValue(node, out var arg) ? arg : base.VisitParameter(node);
     }
-
-    protected abstract Expression GetExpressionBody();
 
     public Expression<Func<T, TResult>> Translate()
     {
-        return Expression.Lambda<Func<T, TResult>>(base.Visit(GetExpressionBody()), _parameterExpression);
+        return Expression.Lambda<Func<T, TResult>>(base.Visit(_expressionBody), _parameterExpression);
     }
 
-    protected string GetProperty<TArg>(int skip)
+    internal static string[] GetPropertyNames(Type sourceType, Type[] typesToSeek)
     {
-#if NETCOREAPP
-        var name = _properties.Where(z => z.PropertyType.IsAssignableTo(typeof(TArg))).Skip(skip).Select(z => z.Name).FirstOrDefault();
-#else
-        var name = _properties.Where(z => typeof(TArg).IsAssignableFrom(z.PropertyType)).Skip(skip).Select(z => z.Name).FirstOrDefault();
-#endif
+        if (typesToSeek.Length == 0)
+        {
+            throw new ArgumentException("at least one type is required", nameof(typesToSeek));
+        }
 
-        return name ?? throw new ArgumentException($"Cannot find property in type {typeof(T).Name} of type {typeof(TArg).Name}");
+        var names = new string[typesToSeek.Length];
+
+        var properties = sourceType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
+
+        var idx = 0;
+        foreach (var t in properties)
+        {
+            if (typesToSeek[idx] == t.PropertyType)
+            {
+                names[idx] = t.Name;
+                idx++;
+
+                if (idx == typesToSeek.Length)
+                {
+                    break;
+                }
+            }
+        }
+
+        if (idx < typesToSeek.Length)
+        {
+            throw new ArgumentException("the give type does not contains enough properties for specified types");
+        }
+
+        return names;
+    }
+
+    internal static Dictionary<ParameterExpression, MemberExpression> GetParameterMap(ParameterExpression parameterExpression,
+        ReadOnlyCollection<ParameterExpression> parameters)
+    {
+        var types = parameters.Select(z => z.Type).ToArray();
+        var names = GetPropertyNames(parameterExpression.Type, types);
+
+        return parameters.Zip(names).ToDictionary(z => z.First, z => Expression.Property(parameterExpression, z.Second));
     }
 }
 
-internal class SplitParameterVisitor<TArg1, TArg2, T, TResult> : SplitParameterVisitor<T, TResult>
-{
-    private readonly MemberExpression _arg1Expression;
-    private readonly MemberExpression _arg2Expression;
-    private readonly Expression<Func<TArg1, TArg2, TResult>> _expression;
-    private readonly ParameterExpression _p1;
-    private readonly ParameterExpression _p2;
+internal class SplitParameterVisitor<TArg1, TArg2, T, TResult>
+    (Expression<Func<TArg1, TArg2, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+        GetParameterMap(_parameterExpression, expression.Parameters),
+        expression.Body);
 
-    public SplitParameterVisitor(Expression<Func<TArg1, TArg2, TResult>> expression)
-    {
-        _expression = expression;
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, T, TResult>
+    (Expression<Func<TArg1, TArg2, TArg3, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+        GetParameterMap(_parameterExpression, expression.Parameters),
+        expression.Body);
 
-        _p1 = expression.Parameters[0];
-        _p2 = expression.Parameters[1];
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, TArg4, T, TResult>
+    (Expression<Func<TArg1, TArg2, TArg3, TArg4, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+        GetParameterMap(_parameterExpression, expression.Parameters),
+        expression.Body);
 
-        var prop1Name = GetProperty<TArg1>(0);
-        var prop2Name = GetProperty<TArg2>(typeof(TArg1) == typeof(TArg2) ? 1 : 0);
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, TArg4, TArg5, T, TResult>
+    (Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+        GetParameterMap(_parameterExpression, expression.Parameters),
+        expression.Body);
 
-        _arg1Expression = Expression.Property(_parameterExpression, prop1Name);
-        _arg2Expression = Expression.Property(_parameterExpression, prop2Name);
-    }
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, T, TResult>
+    (Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+        GetParameterMap(_parameterExpression, expression.Parameters),
+        expression.Body);
 
-    protected override Expression VisitParameter(ParameterExpression node)
-    {
-        if (node == _p1)
-        {
-            return _arg1Expression;
-        }
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, T, TResult>(
+    Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+    GetParameterMap(_parameterExpression, expression.Parameters),
+    expression.Body);
 
-        if (node == _p2)
-        {
-            return _arg2Expression;
-        }
-
-        return base.VisitParameter(node);
-    }
-
-    protected override Expression GetExpressionBody()
-    {
-        return _expression.Body;
-    }
-}
-
-internal class SplitParameterVisitor<TArg1, TArg2, TArg3, T, TResult> : SplitParameterVisitor<T, TResult>
-{
-    private readonly MemberExpression _arg1Expression;
-    private readonly MemberExpression _arg2Expression;
-    private readonly MemberExpression _arg3Expression;
-    private readonly Expression<Func<TArg1, TArg2, TArg3, TResult>> _expression;
-    private readonly ParameterExpression _p1;
-    private readonly ParameterExpression _p2;
-    private readonly ParameterExpression _p3;
-
-    public SplitParameterVisitor(Expression<Func<TArg1, TArg2, TArg3, TResult>> expression)
-    {
-        _expression = expression;
-
-        _p1 = expression.Parameters[0];
-        _p2 = expression.Parameters[1];
-        _p3 = expression.Parameters[2];
-
-        var prop1Name = GetProperty<TArg1>(0);
-        var prop2Name = GetProperty<TArg2>(typeof(TArg1) == typeof(TArg2) ? 1 : 0);
-
-        int skip;
-        if (typeof(TArg1) == typeof(TArg2))
-        {
-            if (typeof(TArg1) == typeof(TArg3))
-            {
-                skip = 2;
-            }
-            else if (typeof(TArg1) == typeof(TArg3) || typeof(TArg2) == typeof(TArg3))
-            {
-                skip = 1;
-            }
-            else
-            {
-                skip = 0;
-            }
-        }
-        else if (typeof(TArg1) == typeof(TArg3) || typeof(TArg2) == typeof(TArg3))
-        {
-            skip = 1;
-        }
-        else
-        {
-            skip = 0;
-        }
-
-        var prop3Name = GetProperty<TArg3>(skip);
-
-        _arg1Expression = Expression.Property(_parameterExpression, prop1Name);
-        _arg2Expression = Expression.Property(_parameterExpression, prop2Name);
-        _arg3Expression = Expression.Property(_parameterExpression, prop3Name);
-    }
-
-    protected override Expression GetExpressionBody()
-    {
-        return _expression.Body;
-    }
-
-    protected override Expression VisitParameter(ParameterExpression node)
-    {
-        if (node == _p1)
-        {
-            return _arg1Expression;
-        }
-
-        if (node == _p2)
-        {
-            return _arg2Expression;
-        }
-
-        if (node == _p3)
-        {
-            return _arg3Expression;
-        }
-
-        return base.VisitParameter(node);
-    }
-}
+internal class SplitParameterVisitor<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, T, TResult>(
+    Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>> expression) : SplitParameterVisitor<T, TResult>(
+    GetParameterMap(_parameterExpression, expression.Parameters),
+    expression.Body);

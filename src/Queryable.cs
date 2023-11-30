@@ -146,11 +146,48 @@ public static class Queryable
     }
 
     /// <summary>
-    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    ///     Projects each element of a sequence into a new form.
     /// </summary>
-    public static IQueryable<T> Where<T, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, bool>> predicate)
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3, T4>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, TResult>> selector)
     {
-        return source.Where(predicate.SplitParameters<T1, T2, T3, T, bool>());
+        return source.Select(selector.SplitParameters<T1, T2, T3, T4, T, TResult>());
+    }
+
+    /// <summary>
+    ///     Projects each element of a sequence into a new form.
+    /// </summary>
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3, T4, T5>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, TResult>> selector)
+    {
+        return source.Select(selector.SplitParameters<T1, T2, T3, T4, T5, T, TResult>());
+    }
+
+    /// <summary>
+    ///     Projects each element of a sequence into a new form.
+    /// </summary>
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3, T4, T5, T6>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, T6, TResult>> selector)
+    {
+        return source.Select(selector.SplitParameters<T1, T2, T3, T4, T5, T6, T, TResult>());
+    }
+
+    /// <summary>
+    ///     Projects each element of a sequence into a new form.
+    /// </summary>
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3, T4, T5, T6, T7>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, T6, T7, TResult>> selector)
+    {
+        return source.Select(selector.SplitParameters<T1, T2, T3, T4, T5, T6, T7, T, TResult>());
+    }
+
+    /// <summary>
+    ///     Projects each element of a sequence into a new form.
+    /// </summary>
+    public static IQueryable<TResult> Select<T, TResult, T1, T2, T3, T4, T5, T6, T7, T8>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>> selector)
+    {
+        return source.Select(selector.SplitParameters<T1, T2, T3, T4, T5, T6, T7, T8, T, TResult>());
     }
 
     /// <summary>
@@ -159,5 +196,57 @@ public static class Queryable
     public static IQueryable<T> Where<T, T1, T2>(this IQueryable<T> source, Expression<Func<T1, T2, bool>> predicate)
     {
         return source.Where(predicate.SplitParameters<T1, T2, T, bool>());
+    }
+
+    /// <summary>
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3>(this IQueryable<T> source, Expression<Func<T1, T2, T3, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T, bool>());
+    }
+
+    /// <summary>
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3, T4>(this IQueryable<T> source, Expression<Func<T1, T2, T3, T4, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T4, T, bool>());
+    }
+
+    /// <summary>
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3, T4, T5>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T4, T5, T, bool>());
+    }
+
+    /// <summary>
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3, T4, T5, T6>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, T6, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T4, T5, T6, T, bool>());
+    }
+
+    /// <summary>
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3, T4, T5, T6, T7>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, T6, T7, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T4, T5, T6, T7, T, bool>());
+    }
+
+    /// <summary>
+    ///     Filters a sequence of values based on a predicate with three arguments taken from source value by splitting.
+    /// </summary>
+    public static IQueryable<T> Where<T, T1, T2, T3, T4, T5, T6, T7, T8>(this IQueryable<T> source,
+        Expression<Func<T1, T2, T3, T4, T5, T6, T7, T8, bool>> predicate)
+    {
+        return source.Where(predicate.SplitParameters<T1, T2, T3, T4, T5, T6, T7, T8, T, bool>());
     }
 }

@@ -34,8 +34,11 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
     public async Task CheckConnection()
     {
         await using var ctx = _fixture.CreateDbContext();
-
+#if NET6_0
+        await ctx.Database.ExecuteSqlRawAsync($"Select 1");
+#else
         await ctx.Database.ExecuteSqlAsync($"Select 1");
+#endif
     }
 
     [Fact]
@@ -194,5 +197,22 @@ public class ExpressionsTests : IClassFixture<ContextFixture>
 
         var s2 = f2(new Tuple<int, string, bool>(2, "5", true));
         Assert.Equal("52True", s2);
+    }
+
+    [Fact]
+    public async Task TestSelectSplit()
+    {
+        await using var ctx = _fixture.CreateDbContext();
+
+        var query = ctx.Employees
+            .Select(z => new
+        {
+                z.Name,
+                z.Department,
+                z.DepartmentID,
+        })
+            .Select((string name, Department department, int? departmentID) => name + department.Name + (departmentID.HasValue ? departmentID.Value.ToString() : ""));
+        
+        var s = query.ToQueryString();
     }
 }
